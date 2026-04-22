@@ -58,6 +58,28 @@
             const product = rawProduct ? rawProduct : '[PRODUK ANDA]';
             const resultArea = document.getElementById('resultArea');
 
+            // ==========================================
+            // 1. KODE KIRIM DATA KE GOOGLE SHEETS
+            // ==========================================
+            // Ganti tulisan di bawah ini dengan Web App URL dari Google Apps Script Anda!
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbxPFOM9ZMvlC84s-XU4VVqelHpplHBByoPR6ygYrQdQvBN6UhZH3ziyLrhX8Mb3j9g6/exec';
+
+            if(rawAudience && rawProduct) {
+                fetch(scriptURL, {
+                    method: 'POST',
+                    mode: 'no-cors', // Penting agar tidak diblokir oleh browser
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ audience: rawAudience, product: rawProduct }),
+                })
+                .then(response => console.log('Data sukses meluncur ke Sheets!'))
+                .catch(error => console.error('Gagal kirim data:', error));
+            }
+
+            // ==========================================
+            // 2. KODE ANIMASI & TAMPILAN HASIL (UI)
+            // ==========================================
             // Simulasi loading state
             resultArea.innerHTML = `<div class="flex items-center justify-center h-full text-blue-400"><p class="text-lg font-semibold animate-pulse">Memproses algoritma Threads...</p></div>`;
 
@@ -99,7 +121,7 @@
                         </div>
                     </div>
                 `;
-            }, 600); // Delay 0.6 detik agar terasa seperti AI sedang "berpikir"
+            }, 600); // Delay 0.6 detik
         }
     </script>
 </body>
